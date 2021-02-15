@@ -49,7 +49,7 @@ class YarnResourceManager:
 
 if __name__ == "__main__":
     print('Enter drone script')
-    filename_lock = os.path.join(os.environ['COBALD_TARDIS_CONFIG_DIR'], 'yarn-logicalnode.lock')
+    filename_lock = os.path.join(os.environ['COBALD_TARDIS_CONFIG_DIR'], 'drone.lock')
     print(f'Path to filelock: {filename_lock}')
     lock = FileLock(filename_lock)
 

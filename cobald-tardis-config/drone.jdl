@@ -1,6 +1,6 @@
 universe = docker
 docker_image = mschnepf/slc7-condocker
-executable = pilot_logicalnode.sh
+executable = drone.sh
 output = CONFIGURE_CONDOR_LOG_DIR/$$(cluster).$$(process).out
 error = CONFIGURE_CONDOR_LOG_DIR/$$(cluster).$$(process).err
 log = CONFIGURE_CONDOR_LOG_DIR/$$(cluster).$$(process).log

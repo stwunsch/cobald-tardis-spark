@@ -11,6 +11,7 @@ export PYTHON_BINARY=python3
 export COBALD_TARDIS_CONFIG_DIR=$PROJECT_HOME/cobald-tardis-config
 export COBALD_TARDIS_DRONES_DATABASE=$PROJECT_TMP/drones.db
 export COBALD_TARDIS_NODEMANAGER_DATABASE=$PROJECT_TMP/nodemanagers.db
+export COBALD_TARDIS_CONDOR_LOG_DIR=$PROJECT_TMP/condor-logs
 
 # Spark
 export JAVA_HOME=/usr

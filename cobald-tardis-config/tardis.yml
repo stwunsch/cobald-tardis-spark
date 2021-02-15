@@ -14,7 +14,7 @@ ETP:
     - logicalnode
   MachineTypeConfiguration:
     logicalnode:
-      jdl: pilot_logicalnode.jdl
+      jdl: drone.jdl
   MachineMetaData:
     logicalnode:
       Cores: 1

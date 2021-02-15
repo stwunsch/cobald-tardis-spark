@@ -14,7 +14,7 @@ echo "What is my system?" `uname -a`
 
 echo "### Setup software"
 
-source /work/wunsch/cobald-tardis-spark/setup.sh
+source CONFIGURE_PROJECT_HOME/setup.sh
 
 echo "### Environment"
 
@@ -28,6 +28,6 @@ echo "Tardis Memory:" ${Memory}
 
 echo "### Start working"
 
-$PYTHON_BINARY $COBALD_TARDIS_CONFIG_DIR/yarn-logicalnode.py ${TardisDroneUuid} ${Cores} ${Memory}
+$PYTHON_BINARY $COBALD_TARDIS_CONFIG_DIR/drone.py ${TardisDroneUuid} ${Cores} ${Memory}
 
 echo "### End of job"
