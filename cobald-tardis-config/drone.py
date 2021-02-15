@@ -53,7 +53,7 @@ if __name__ == "__main__":
     print(f'Path to filelock: {filename_lock}')
     lock = FileLock(filename_lock)
 
-    filename_dronesdb = os.environ['COBALD_TARDIS_NODEMANAGER_DATABASE']
+    filename_dronesdb = os.environ['COBALD_TARDIS_DRONES_DATABASE']
     print(f'Path to drones database: {filename_dronesdb}')
     dronesconn = sqlite3.connect(filename_dronesdb)
     with dronesconn:
