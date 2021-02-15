@@ -7,3 +7,4 @@ hadoop/
 spark/
 yarn-config/
 *.db
+logs/
