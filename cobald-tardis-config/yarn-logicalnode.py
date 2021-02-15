@@ -53,7 +53,7 @@ if __name__ == "__main__":
     print(f'Path to filelock: {filename_lock}')
     lock = FileLock(filename_lock)
 
-    filename_dronesdb = os.path.join(os.environ['COBALD_TARDIS_CONFIG_DIR'], 'yarn_drones.db')
+    filename_dronesdb = os.environ['COBALD_TARDIS_NODEMANAGER_DATABASE']
     print(f'Path to drones database: {filename_dronesdb}')
     dronesconn = sqlite3.connect(filename_dronesdb)
     with dronesconn:
@@ -68,11 +68,13 @@ if __name__ == "__main__":
         dronesconn.commit()
         print(f"Succesfully inserted {args.drone_uuid} into database")
 
-    rm = YarnResourceManager('CONFIGURE_YARN_RESOURCEMANAGER')
+    hostname_resourcemanager = os.environ['YARN_RESOURCEMANAGER']
+    print(f'Hostname Yarn resourcemanager: {hostname_resourcemanager}')
+    rm = YarnResourceManager(hostname_resourcemanager)
     nodes = rm.nodes
 
     # Insert a nodemanager into db if it doesn't exist yet
-    filename_nmdb = os.path.join(os.environ['COBALD_TARDIS_CONFIG_DIR'], 'yarn_nm.db')
+    filename_nmdb = os.environ['COBALD_TARDIS_NODEMANAGER_DATABASE']
     print(f'Path to nodemanager database: {filename_nmdb}')
     nmconn = sqlite3.connect(filename_nmdb)
 
