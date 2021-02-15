@@ -1,6 +1,8 @@
 #!/bin/bash
 
-source setup.sh
+SCRIPT=$(readlink -f $0)
+SCRIPT_DIR=$(dirname $SCRIPT)
+source $SCRIPT_DIR/setup.sh
 
 cd $COBALD_TARDIS_CONFIG_DIR
 

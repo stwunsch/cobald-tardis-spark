@@ -1,10 +1,11 @@
 *.pyc
 *.swp
 *.swo
-docker_stderr
+docker_stderror
 pyvenv/
 hadoop/
 spark/
 *.db
 tmp/
 *.lock
+.nfs*

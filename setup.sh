@@ -1,11 +1,9 @@
 #!/bin/bash
 
 # General settings
-source config.sh
+SCRIPT=$(readlink -f $0)
+SCRIPT_DIR=$(dirname $SCRIPT)
+source $SCRIPT_DIR/config.sh
 
 # Python
 source $PROJECT_HOME/pyvenv/bin/activate
-
-# Hadoop suite with Yarn
-
-# Spark

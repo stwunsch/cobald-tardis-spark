@@ -1,6 +1,8 @@
 #!/bin/bash
 
-source config.sh
+SCRIPT=$(readlink -f $0)
+SCRIPT_DIR=$(dirname $SCRIPT)
+source $SCRIPT_DIR/config.sh
 
 # Hadoop
 sed -i 's,CONFIGURE_YARN_LOG_DIR,'$PROJECT_TMP'/yarn-logs,g' $HADOOP_CONF_DIR/yarn-env.sh
