@@ -176,4 +176,4 @@ YARN_HEAPSIZE=6000
 ###
 # Log directory
 ###
-YARN_LOG_DIR=/work/wunsch/cobald-tardis-spark/yarn-config/logs
+YARN_LOG_DIR=CONFIGURE_YARN_LOG_DIR
