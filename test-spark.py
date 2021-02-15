@@ -1,6 +1,4 @@
 import random
-import os
-
 from pyspark.sql import SparkSession
 
 spark = (
@@ -8,7 +6,6 @@ spark = (
     .builder
     .appName('Calculate Pi')
     .master('yarn')
-    .config('spark.pyspark.python', os.environ['PYTHON_BINARY'])
     .getOrCreate()
 )
 

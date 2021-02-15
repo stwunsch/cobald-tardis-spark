@@ -7,7 +7,7 @@ export PROJECT_HOME=$SCRIPT_DIR
 export PROJECT_TMP=$PROJECT_HOME/tmp
 
 # Python
-export PYTHON_BINARY=python3
+export PYTHON_BINARY=/usr/bin/python3
 
 # Cobald/Tardis
 export COBALD_TARDIS_CONFIG_DIR=$PROJECT_HOME/cobald-tardis-config
@@ -20,6 +20,8 @@ export JAVA_HOME=/usr
 export SPARK_HOME=$PROJECT_HOME/spark
 export PATH=$SPARK_HOME/bin:$SPARK_HOME/sbin:$PATH
 export PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
+export PYSPARK_PYTHON=$PYTHON_BINARY
+export PYSPARK_DRIVER_PYTHON=$PYTHON_BINARY
 
 # Hadoop
 export HADOOP_HOME=$PROJECT_HOME/hadoop
