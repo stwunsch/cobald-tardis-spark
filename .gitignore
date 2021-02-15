@@ -5,3 +5,4 @@ docker_stderr
 pyvenv/
 hadoop/
 spark/
+yarn-config/
