@@ -6,3 +6,4 @@ pyvenv/
 hadoop/
 spark/
 yarn-config/
+*.db
