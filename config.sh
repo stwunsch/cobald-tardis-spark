@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# Project home (most likely this directory)
-export PROJECT_HOME=$(pwd)
+# Project home (set here to this directory)
+SCRIPT=$(readlink -f $BASH_SOURCE[0])
+SCRIPT_DIR=$(dirname $SCRIPT)
+export PROJECT_HOME=$SCRIPT_DIR
 export PROJECT_TMP=$PROJECT_HOME/tmp
 
 # Python
