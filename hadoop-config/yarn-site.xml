@@ -48,7 +48,7 @@
         <name>yarn.nodemanager.resource.memory-mb</name>
         <value>1024</value>
 <!-- minimum of this property is 500 MB, but it is also required
-     - executor memory (1000 MB)
+     - executor memory (1024 MB)
      - offHeap memory (0) MB
      - overhead (384 MB)
      - PySpark memory (0 MB) -->
@@ -56,7 +56,7 @@
 
 <property>
         <name>yarn.scheduler.maximum-allocation-mb</name>
-        <value>1384</value>
+        <value>1500</value>
 </property>
 
 <property>
