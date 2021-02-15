@@ -2,6 +2,7 @@
 
 # Project home (most likely this directory)
 export PROJECT_HOME=$(pwd)
+export PROJECT_LOGS=$PROJECT_HOME/logs
 
 # Python
 export PYTHON_BINARY=python3
