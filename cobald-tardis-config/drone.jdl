@@ -1,9 +1,9 @@
 universe = docker
 docker_image = mschnepf/slc7-condocker
 executable = pilot_logicalnode.sh
-output = logs/$$(cluster).$$(process).out
-error = logs/$$(cluster).$$(process).err
-log = logs/$$(cluster).$$(process).log
+output = CONFIGURE_CONDOR_LOG_DIR/$$(cluster).$$(process).out
+error = CONFIGURE_CONDOR_LOG_DIR/$$(cluster).$$(process).err
+log = CONFIGURE_CONDOR_LOG_DIR/$$(cluster).$$(process).log
 requirements=TARGET.machine=?="sg01.etp.kit.edu" || TARGET.machine=?="sg02.etp.kit.edu" || TARGET.machine=?="sg03.etp.kit.edu" || TARGET.machine=?="sg04.etp.kit.edu"
 environment= ${Environment};Cores=${Cores};Memory=${Memory}
 request_cpus=${Cores}
