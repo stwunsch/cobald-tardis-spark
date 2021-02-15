@@ -15,3 +15,6 @@ curl -Os https://downloads.apache.org/hadoop/common/$NAME/$NAME.tar.gz
 tar xvf $NAME.tar.gz
 rm $NAME.tar.gz
 mv $NAME hadoop/
+
+# Copy the library for the YarnShuffleService at the right place
+cp spark/yarn/spark-3.0.1-yarn-shuffle.jar hadoop/share/hadoop/yarn/lib
