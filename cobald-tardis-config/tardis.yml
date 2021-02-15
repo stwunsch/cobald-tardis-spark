@@ -1,0 +1,20 @@
+BatchSystem:
+    adapter: Yarn
+
+Sites:
+  - name: ETP
+    adapter: HTCondor
+    quota: 16
+
+ETP:
+  max_age: 0.2
+  MachineTypes:
+    - logicalnode
+  MachineTypeConfiguration:
+    logicalnode:
+      jdl: pilot_logicalnode.jdl
+  MachineMetaData:
+    logicalnode:
+      Cores: 1
+      Memory: 1
+      Disk: 5

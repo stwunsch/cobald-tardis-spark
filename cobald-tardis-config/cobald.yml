@@ -1,0 +1,32 @@
+pipeline:
+  - !LinearController
+    low_utilisation: 0.20
+    high_allocation: 0.70
+    rate: 1
+    interval: 1
+  - !Limiter
+    minimum: 1
+    maximum: 16
+  - !Logger
+    name: 'changes'
+  - !TardisPoolFactory
+    configuration: 'tardis.yml'
+
+logging:
+    version: 1
+    root:
+        level: DEBUG
+        handlers: [console, file]
+    formatters:
+        precise:
+            format: '%(name)s: %(asctime)s %(message)s'
+            datefmt: '%Y-%m-%d %H:%M:%S'
+    handlers:
+        console:
+            class : logging.StreamHandler
+            formatter: precise
+            stream  : ext://sys.stdout
+        file:
+            class : logging.FileHandler
+            formatter: precise
+            filename: cobald.log

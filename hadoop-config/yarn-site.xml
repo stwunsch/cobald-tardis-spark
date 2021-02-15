@@ -1,0 +1,94 @@
+<configuration>
+
+<property>
+  <name>yarn.nodemanager.runtime.linux.sandbox-mode.local-dirs.permissions</name>
+  <value>read,write,execute,delete</value>
+</property>
+
+<property>
+  <name>yarn.nodemanager.default-container-executor.log-dirs.permissions</name>
+  <value>777</value>
+</property>
+
+
+<property>
+  <name>yarn.nodemanager.local-dirs</name>
+  <value>/work/wunsch/yarn-config/local-dir</value>
+</property>
+
+<property>
+  <name>spark.yarn.scheduler.heartbeat.interval-ms</name>
+  <value>500</value>
+  <description>The interval in ms in which the Spark application master heartbeats into the YARN ResourceManager</description>
+</property>
+
+<property>
+  <name>yarn.resourcemanager.scheduler.class</name>
+  <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
+</property>
+
+<property>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>portal1</value>
+</property>
+
+<!-- Fix YARN nodemanager resources -->
+
+<property>
+        <name>yarn.nodemanager.resource.detect-hardware-capabilities</name>
+        <value>true</value>
+</property>
+
+<property>
+        <name>yarn.nodemanager.resource.cpu-vcores</name>
+        <value>1</value> <!-- minimum is 1 -->
+</property>
+
+<property>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>1024</value>
+<!-- minimum of this property is 500 MB, but it is also required
+     - executor memory (1000 MB)
+     - offHeap memory (0) MB
+     - overhead (384 MB)
+     - PySpark memory (0 MB) -->
+</property>
+
+<property>
+        <name>yarn.scheduler.maximum-allocation-mb</name>
+        <value>1384</value>
+</property>
+
+<property>
+        <name>yarn.scheduler.minimum-allocation-mb</name>
+        <value>500</value>
+</property>
+
+<!-- Fix YARN nodemanager resources -->
+
+<!-- Activate Spark shuffle service in YARN for dynamic allocation -->
+
+<property>
+  <name>yarn.nodemanager.aux-services</name>
+  <value>spark_shuffle</value>
+  <description>shuffle service that needs to be set for Map Reduce to run</description>
+</property>
+
+<property>
+  <name>yarn.nodemanager.aux-services.spark_shuffle.class</name>
+  <value>org.apache.spark.network.yarn.YarnShuffleService</value>
+  <description>
+  This class is defined in $SPARK_HOME/yarn/spark-3.0.1-yarn-shuffle.jar and should be copied to $HADOOP_HOME/share/hadoop/yarn/lib
+  </description>
+</property>
+
+<property>
+  <name>spark.yarn.shuffle.stopOnFailure</name>
+  <value>true</value>
+  <description>
+  Whether to stop the NodeManager when there's a failure in the Spark Shuffle Service's initialization.
+  This prevents application failures caused by running containers on NodeManagers where the Spark Shuffle Service is not running.
+  </description>
+</property>
+
+</configuration>
