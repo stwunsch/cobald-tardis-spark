@@ -68,7 +68,7 @@ if __name__ == "__main__":
         dronesconn.commit()
         print(f"Succesfully inserted {args.drone_uuid} into database")
 
-    rm = YarnResourceManager('portal1')
+    rm = YarnResourceManager('CONFIGURE_YARN_RESOURCEMANAGER')
     nodes = rm.nodes
 
     # Insert a nodemanager into db if it doesn't exist yet

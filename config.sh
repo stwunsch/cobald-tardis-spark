@@ -22,4 +22,4 @@ export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
 export HADOOP_CONF_DIR=$PROJECT_HOME/hadoop-config
 
 # Hostnames
-export YARN_RESOURCEMANAGER='bms1'
+export YARN_RESOURCEMANAGER='portal1'

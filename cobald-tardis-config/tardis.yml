@@ -1,5 +1,6 @@
 BatchSystem:
     adapter: Yarn
+    resourcemanager: CONFIGURE_YARN_RESOURCEMANAGER
 
 Sites:
   - name: ETP
