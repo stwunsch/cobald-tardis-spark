@@ -14,7 +14,7 @@ parser.add_argument("memory", help="Amount of memory in units of 1384 MB of this
 args = parser.parse_args()
 
 drone_cores = args.cores
-drone_memory = args.memory * 1384 # 1384 MB is the minimum required memory for a single YARN executor
+drone_memory = args.memory * 1500 # 1384 MB is the minimum required memory for a single YARN executor
 
 
 class YarnResourceManager:
