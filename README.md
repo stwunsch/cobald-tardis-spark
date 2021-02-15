@@ -26,3 +26,25 @@ Have a look at the `config.sh` file, set the correct configuration and run the `
 ```bash
 ./configure.sh
 ```
+
+## Test Spark running on Yarn
+
+1. Adapt the config in `hadoop-config/yarn-site.xml` and set the number for `yarn.nodemanager.resource.cpu-vcores` to at least 2 and set the number for `yarn.nodemanager.resource.memory-mb` to at least 2500.
+
+2. Go to the machine which should act as the master (aka resourcemanager in Yarn) and run it
+
+```bash
+./run-resourcemanager.sh
+```
+
+3. Go to the machine which should act as the worker (aka nodemanager in Yarn) and run it
+
+```bash
+./run-nodemanager.sh
+```
+
+3. Run the test script
+
+```bash
+./test-spark.sh
+```
