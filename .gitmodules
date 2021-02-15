@@ -1,0 +1,6 @@
+[submodule "tardis"]
+	path = tardis
+	url = ssh://git@github.com/stwunsch/tardis
+[submodule "cobald"]
+	path = cobald
+	url = ssh://git@github.com/stwunsch/cobald
