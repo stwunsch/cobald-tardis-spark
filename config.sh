@@ -2,7 +2,7 @@
 
 # Project home (most likely this directory)
 export PROJECT_HOME=$(pwd)
-export PROJECT_LOGS=$PROJECT_HOME/logs
+export PROJECT_TMP=$PROJECT_HOME/tmp
 
 # Python
 export PYTHON_BINARY=python3
@@ -20,3 +20,6 @@ export PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
 export HADOOP_HOME=$PROJECT_HOME/hadoop
 export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
 export HADOOP_CONF_DIR=$PROJECT_HOME/hadoop-config
+
+# Hostnames
+export YARN_RESOURCEMANAGER='bms1'

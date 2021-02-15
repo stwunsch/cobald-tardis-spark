@@ -13,7 +13,7 @@
 
 <property>
   <name>yarn.nodemanager.local-dirs</name>
-  <value>/work/wunsch/yarn-config/local-dir</value>
+  <value>CONFIGURE_YARN_LOCAL_DIR</value>
 </property>
 
 <property>
@@ -29,7 +29,7 @@
 
 <property>
         <name>yarn.resourcemanager.hostname</name>
-        <value>portal1</value>
+        <value>CONFIGURE_YARN_RESOURCEMANAGER</value>
 </property>
 
 <!-- Fix YARN nodemanager resources -->
