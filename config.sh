@@ -7,7 +7,7 @@ export PROJECT_HOME=$SCRIPT_DIR
 export PROJECT_TMP=$PROJECT_HOME/tmp
 
 # Python
-export PYTHON_BINARY=/usr/bin/python3
+export PYTHON_BINARY=python3
 
 # Cobald/Tardis
 export COBALD_TARDIS_CONFIG_DIR=$PROJECT_HOME/cobald-tardis-config
