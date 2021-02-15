@@ -85,7 +85,8 @@ if __name__ == "__main__":
             (name, allocated_vcores, allocated_memory_mb)
             VALUES
             ('sg01.etp.kit.edu', ?, ?)"""
-        nmcursor.execute(insert_nm, (1, 1024))
+        # TODO: Remove this hardcoded value and make this configurable
+        nmcursor.execute(insert_nm, (1, 1500))
         nmconn.commit()
 
     # Retrieve current allocation and increase it
@@ -109,7 +110,7 @@ if __name__ == "__main__":
         rm.set_resources(nodes[0], cores=new_vcores, memory=new_memory)
 
         print(f'Updated the database and Yarn to {new_vcores} cores and {new_memory} memory')
-        time.sleep(1) # give yarn some time to process request sequentially
+        time.sleep(0.1) # give yarn some time to process request sequentially
 
     while(True):
         time.sleep(10)
