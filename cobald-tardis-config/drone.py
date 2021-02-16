@@ -72,8 +72,8 @@ if __name__ == "__main__":
     hostname_resourcemanager = os.environ['YARN_RESOURCEMANAGER']
     print(f'Hostname Yarn resourcemanager: {hostname_resourcemanager}')
     rm = YarnResourceManager(hostname_resourcemanager)
-    nodes = rm.nodes
-    if not args.drone_nm in [node.split(':')[0] for node in nodes]: # strip off the port
+    nodes = [node.split(':')[0] for node in rm.nodes] # strip off the port
+    if not args.drone_nm in nodes:
         raise Exception(f'Failed to find {args.drone_nm} in list of available Yarn nodemanagers {nodes}')
 
     # Insert a nodemanager into db if it doesn't exist yet
