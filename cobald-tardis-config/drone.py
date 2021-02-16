@@ -132,17 +132,17 @@ if __name__ == "__main__":
             with lock:
                 # Remove cores from the db
                 nmcursor = nmconn.cursor()
-                status_query = "SELECT allocated_vcores, allocated_memory_mb FROM yarn_nm WHERE name = 'sg01.etp.kit.edu'"
-                allocated_vcores, allocated_memory = nmcursor.execute(status_query).fetchall()[0]
+                status_query = "SELECT allocated_vcores, allocated_memory_mb FROM yarn_nm WHERE name = ?"
+                allocated_vcores, allocated_memory = nmcursor.execute(status_query, (node_label, )).fetchall()[0]
                 print(f'Current resources in Yarn are {allocated_vcores} cores and {allocated_memory} memory')
 
                 update_query = """
                     UPDATE yarn_nm
                     SET allocated_vcores = ?, allocated_memory_mb = ?
-                    WHERE name = 'sg01.etp.kit.edu'"""
+                    WHERE name = ?"""
                 new_vcores = allocated_vcores - drone_cores
                 new_memory = allocated_memory - drone_memory
-                nmcursor.execute(update_query, (new_vcores, new_memory))
+                nmcursor.execute(update_query, (new_vcores, new_memory, node_label))
                 nmconn.commit()
 
                 # Update Yarn
