@@ -25,9 +25,12 @@ echo "Python version:" $(python --version)
 echo "Tardis drone UUID:" ${TardisDroneUuid}
 echo "Tardis Cores:" ${Cores}
 echo "Tardis Memory:" ${Memory}
+# TODO: Make this more generic, we specialize here on the sg machines!
+NODEMANAGER_HOSTNAME==$(echo $(hostname) | sed -En "s/.*(sg.*)/\1/p")
+echo "Yarn nodemanager:" ${NODEMANAGER_HOSTNAME}
 
 echo "### Start working"
 
-$PYTHON_BINARY $COBALD_TARDIS_CONFIG_DIR/drone.py ${TardisDroneUuid} ${Cores} ${Memory}
+$PYTHON_BINARY $COBALD_TARDIS_CONFIG_DIR/drone.py ${TardisDroneUuid} ${NODEMANAGER_HOSTNAME} ${Cores} ${Memory}
 
 echo "### End of job"

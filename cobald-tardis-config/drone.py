@@ -9,6 +9,7 @@ import os
 # Define command line arguments
 parser = argparse.ArgumentParser()
 parser.add_argument("drone_uuid", help="The uuid for this logical node assigned by tardis.")
+parser.add_argument("drone_nm", help="The Yarn nodemanager responsible for this drone.")
 parser.add_argument("cores", help="Number of logical cores of this drone on its YARN nodemanager.", type=int)
 parser.add_argument("memory", help="Amount of memory in units of 1384 MB of this drone on its YARN nodemanager.", type=int)
 args = parser.parse_args()
@@ -62,9 +63,9 @@ if __name__ == "__main__":
             INSERT OR IGNORE INTO yarn_drones
             (drone_uuid, nm, status)
             VALUES
-            (?, 'sg01.etp.kit.edu', 'Available')"""
+            (?, ?, 'Available')"""
 
-        dronescursor.execute(insert_drone, (args.drone_uuid, ))
+        dronescursor.execute(insert_drone, (args.drone_uuid, args.drone_nm))
         dronesconn.commit()
         print(f"Succesfully inserted {args.drone_uuid} into database")
 
@@ -72,6 +73,8 @@ if __name__ == "__main__":
     print(f'Hostname Yarn resourcemanager: {hostname_resourcemanager}')
     rm = YarnResourceManager(hostname_resourcemanager)
     nodes = rm.nodes
+    if not args.drone_nm in nodes:
+        raise Exception(f'Failed to find {args.drone_nm} in list of available Yarn nodemanagers {nodes}')
 
     # Insert a nodemanager into db if it doesn't exist yet
     filename_nmdb = os.environ['COBALD_TARDIS_NODEMANAGER_DATABASE']
@@ -84,30 +87,30 @@ if __name__ == "__main__":
             INSERT OR IGNORE INTO yarn_nm
             (name, allocated_vcores, allocated_memory_mb)
             VALUES
-            ('sg01.etp.kit.edu', ?, ?)"""
+            (?, ?, ?)"""
         # TODO: Remove this hardcoded value and make this configurable
-        nmcursor.execute(insert_nm, (1, 1500))
+        nmcursor.execute(insert_nm, (args.drone_nm, 1, 1500))
         nmconn.commit()
 
     # Retrieve current allocation and increase it
     with lock:
         # Update database
         nmcursor = nmconn.cursor()
-        status_query = "SELECT allocated_vcores, allocated_memory_mb FROM yarn_nm WHERE name = 'sg01.etp.kit.edu'"
-        allocated_vcores, allocated_memory = nmcursor.execute(status_query).fetchall()[0]
+        status_query = "SELECT allocated_vcores, allocated_memory_mb FROM yarn_nm WHERE name = ?"
+        allocated_vcores, allocated_memory = nmcursor.execute(status_query, (args.drone_nm, )).fetchall()[0]
         print(f'Current resources in Yarn are {allocated_vcores} cores and {allocated_memory} memory')
 
         update_query = """
             UPDATE yarn_nm
             SET allocated_vcores = ?, allocated_memory_mb = ?
-            WHERE name = 'sg01.etp.kit.edu'"""
+            WHERE name = ?"""
         new_vcores = allocated_vcores + drone_cores
         new_memory = allocated_memory + drone_memory
-        nmcursor.execute(update_query, (new_vcores, new_memory))
+        nmcursor.execute(update_query, (new_vcores, new_memory, args.drone_nm))
         nmconn.commit()
 
         # Update Yarn
-        rm.set_resources(nodes[0], cores=new_vcores, memory=new_memory)
+        rm.set_resources(args.drone_nm, cores=new_vcores, memory=new_memory)
 
         print(f'Updated the database and Yarn to {new_vcores} cores and {new_memory} memory')
         time.sleep(0.1) # give yarn some time to process request sequentially
@@ -141,7 +144,7 @@ if __name__ == "__main__":
                 nmconn.commit()
 
                 # Update Yarn
-                rm.set_resources(nodes[0], cores=new_vcores, memory=new_memory)
+                rm.set_resources(args.drone_nm, cores=new_vcores, memory=new_memory)
                 print(f'Updated the database and Yarn to {new_vcores} cores and {new_memory} memory')
 
                 time.sleep(1) # give yarn some time to process request sequentially
