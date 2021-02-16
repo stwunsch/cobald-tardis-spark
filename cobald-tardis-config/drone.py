@@ -54,6 +54,15 @@ if __name__ == "__main__":
     print(f'Path to filelock: {filename_lock}')
     lock = FileLock(filename_lock)
 
+    hostname_resourcemanager = os.environ['YARN_RESOURCEMANAGER']
+    print(f'Hostname Yarn resourcemanager: {hostname_resourcemanager}')
+    rm = YarnResourceManager(hostname_resourcemanager)
+    rm_nodes = rm.nodes
+    selected_nodes = [node for node in rm_nodes if args.drone_nm in node] # find the label for the responsible nodemanager
+    if len(selected_nodes) != 1:
+        raise Exception(f'Failed to find a single entry for {args.drone_nm} in list of available Yarn nodemanagers {rm_nodes}')
+    node_label = selected_nodes[0]
+
     filename_dronesdb = os.environ['COBALD_TARDIS_DRONES_DATABASE']
     print(f'Path to drones database: {filename_dronesdb}')
     dronesconn = sqlite3.connect(filename_dronesdb)
@@ -65,16 +74,9 @@ if __name__ == "__main__":
             VALUES
             (?, ?, 'Available')"""
 
-        dronescursor.execute(insert_drone, (args.drone_uuid, args.drone_nm))
+        dronescursor.execute(insert_drone, (args.drone_uuid, node_label))
         dronesconn.commit()
-        print(f"Succesfully inserted {args.drone_uuid} into database")
-
-    hostname_resourcemanager = os.environ['YARN_RESOURCEMANAGER']
-    print(f'Hostname Yarn resourcemanager: {hostname_resourcemanager}')
-    rm = YarnResourceManager(hostname_resourcemanager)
-    nodes = [node.split(':')[0] for node in rm.nodes] # strip off the port
-    if not args.drone_nm in nodes:
-        raise Exception(f'Failed to find {args.drone_nm} in list of available Yarn nodemanagers {nodes}')
+        print(f"Successfully inserted {args.drone_uuid} for nodemanager {node_label} into database")
 
     # Insert a nodemanager into db if it doesn't exist yet
     filename_nmdb = os.environ['COBALD_TARDIS_NODEMANAGER_DATABASE']
@@ -89,7 +91,7 @@ if __name__ == "__main__":
             VALUES
             (?, ?, ?)"""
         # TODO: Remove this hardcoded value and make this configurable
-        nmcursor.execute(insert_nm, (args.drone_nm, 1, 1500))
+        nmcursor.execute(insert_nm, (node_label, 1, 1500))
         nmconn.commit()
 
     # Retrieve current allocation and increase it
@@ -97,7 +99,7 @@ if __name__ == "__main__":
         # Update database
         nmcursor = nmconn.cursor()
         status_query = "SELECT allocated_vcores, allocated_memory_mb FROM yarn_nm WHERE name = ?"
-        allocated_vcores, allocated_memory = nmcursor.execute(status_query, (args.drone_nm, )).fetchall()[0]
+        allocated_vcores, allocated_memory = nmcursor.execute(status_query, (node_label, )).fetchall()[0]
         print(f'Current resources in Yarn are {allocated_vcores} cores and {allocated_memory} memory')
 
         update_query = """
@@ -106,11 +108,11 @@ if __name__ == "__main__":
             WHERE name = ?"""
         new_vcores = allocated_vcores + drone_cores
         new_memory = allocated_memory + drone_memory
-        nmcursor.execute(update_query, (new_vcores, new_memory, args.drone_nm))
+        nmcursor.execute(update_query, (new_vcores, new_memory, node_label))
         nmconn.commit()
 
         # Update Yarn
-        rm.set_resources(args.drone_nm, cores=new_vcores, memory=new_memory)
+        rm.set_resources(node_label, cores=new_vcores, memory=new_memory)
 
         print(f'Updated the database and Yarn to {new_vcores} cores and {new_memory} memory')
         time.sleep(0.1) # give yarn some time to process request sequentially
@@ -144,7 +146,7 @@ if __name__ == "__main__":
                 nmconn.commit()
 
                 # Update Yarn
-                rm.set_resources(args.drone_nm, cores=new_vcores, memory=new_memory)
+                rm.set_resources(node_label, cores=new_vcores, memory=new_memory)
                 print(f'Updated the database and Yarn to {new_vcores} cores and {new_memory} memory')
 
                 time.sleep(1) # give yarn some time to process request sequentially
