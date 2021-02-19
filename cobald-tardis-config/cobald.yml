@@ -6,7 +6,7 @@ pipeline:
     interval: 1
   - !Limiter
     minimum: 1
-    maximum: 16
+    maximum: 48
   - !Logger
     name: 'changes'
   - !TardisPoolFactory
