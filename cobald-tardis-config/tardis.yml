@@ -6,7 +6,7 @@ BatchSystem:
 Sites:
   - name: ETP
     adapter: HTCondor
-    quota: 48
+    quota: CONFIGURE_COBALD_TARDIS_CLUSTER_CAPACITY
 
 ETP:
   max_age: 0.2
