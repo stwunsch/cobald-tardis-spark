@@ -13,7 +13,7 @@ def inside(p):
     x, y = random.random(), random.random()
     return x * x + y * y < 1
 
-num_samples = 1e10
+num_samples = 5e10
 num_partitions = 1024
 
 count = (
