@@ -13,8 +13,8 @@ def inside(p):
     x, y = random.random(), random.random()
     return x * x + y * y < 1
 
-num_samples = 1e6
-num_partitions = 128
+num_samples = 1e10
+num_partitions = 1024
 
 count = (
     spark.sparkContext
