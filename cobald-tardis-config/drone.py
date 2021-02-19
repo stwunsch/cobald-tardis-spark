@@ -149,7 +149,7 @@ if __name__ == "__main__":
                 rm.set_resources(node_label, cores=new_vcores, memory=new_memory)
                 print(f'Updated the database and Yarn to {new_vcores} cores and {new_memory} memory')
 
-                time.sleep(1) # give yarn some time to process request sequentially
+                time.sleep(0.1) # give yarn some time to process request sequentially
 
             # set NotAvailable in the db and leave the script
             print('Set drone as NotAvailable in the drones database')
