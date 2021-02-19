@@ -6,7 +6,7 @@ BatchSystem:
 Sites:
   - name: ETP
     adapter: HTCondor
-    quota: 16
+    quota: 48
 
 ETP:
   max_age: 0.2
