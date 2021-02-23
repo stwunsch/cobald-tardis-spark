@@ -31,12 +31,15 @@ class YarnResourceManager:
         r = requests.get(self.base + '/ws/v1/cluster/apps')
         data = r.json()
         apps = []
-        for app in data['apps']['app']:
-            id_ = app['id']
-            state = app['state']
-            memory = app['allocatedMB']
-            cpus = app['allocatedVCores']
-            apps.append({'id': id_, 'cpus': cpus, 'memory': memory, 'state': state})
+        try:
+            for app in data['apps']['app']:
+                id_ = app['id']
+                state = app['state']
+                memory = app['allocatedMB']
+                cpus = app['allocatedVCores']
+                apps.append({'id': id_, 'cpus': cpus, 'memory': memory, 'state': state})
+        except:
+            pass
         return apps
 
     @property
