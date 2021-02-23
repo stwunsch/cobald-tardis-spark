@@ -48,7 +48,7 @@
 
 <property>
         <name>yarn.resourcemanager.hostname</name>
-        <value>portal1</value>
+        <value>CONFIGURE_YARN_RESOURCEMANAGER</value>
 </property>
 
 <!-- Fix YARN nodemanager resources -->
