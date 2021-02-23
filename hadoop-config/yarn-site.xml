@@ -22,14 +22,33 @@
   <description>The interval in ms in which the Spark application master heartbeats into the YARN ResourceManager</description>
 </property>
 
+<!-- FAIR Scheduling -->
+
 <property>
   <name>yarn.resourcemanager.scheduler.class</name>
   <value>org.apache.hadoop.yarn.server.resourcemanager.scheduler.fair.FairScheduler</value>
 </property>
 
 <property>
+  <name>yarn.scheduler.fair.preemption</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>yarn.scheduler.fair.user-as-default-queue</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>yarn.scheduler.fair.allocation.file</name>
+  <value>fair-scheduler.xml</value>
+</property>
+
+<!-- FAIR Scheduling -->
+
+<property>
         <name>yarn.resourcemanager.hostname</name>
-        <value>CONFIGURE_YARN_RESOURCEMANAGER</value>
+        <value>portal1</value>
 </property>
 
 <!-- Fix YARN nodemanager resources -->
@@ -41,17 +60,17 @@
 
 <property>
         <name>yarn.nodemanager.resource.cpu-vcores</name>
-        <value>1</value> <!-- minimum is 1 -->
+        <value>1</value>
 </property>
 
 <property>
         <name>yarn.nodemanager.resource.memory-mb</name>
         <value>1500</value>
-<!-- minimum of this property is 500 MB, but it is also required
-     - executor memory (1024 MB)
-     - offHeap memory (0) MB
-     - overhead (384 MB)
-     - PySpark memory (0 MB) -->
+        <description>
+        The minimum value for this property is 500 MB. The default value for the ApplicationMaster to run is 1024 MB. The minimum amount 
+        of memory for any Spark executor to run is 1408 MB (1024MB for the executor + 384 MB minimum overhead memory). We set it to 1500MB
+        to have some minimum extra room to be safe in any case.
+        </description>
 </property>
 
 <property>

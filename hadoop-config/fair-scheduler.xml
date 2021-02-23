@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License. See accompanying LICENSE file.
+-->
+
+<!--
+  This file contains pool and user allocations for the Fair Scheduler.
+  Its format is explained in the Fair Scheduler documentation at
+  http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/FairScheduler.html.
+  The documentation also includes a sample config file.
+-->
+
+<allocations>
+
+<!-- 
+Default number of seconds the queue is under its minimum share before it will
+try to preempt containers to take resources from other queues.
+-->
+<defaultFairSharePreemptionTimeout>2</defaultFairSharePreemptionTimeout>
+
+<!--
+If any queue waits defaultFairSharePreemptionTimeout without receiving 
+fairSharePreemptionThreshold*fairShare resources, it is allowed to preempt
+containers to take resources from other queues.
+-->
+<defaultFairSharePreemptionThreshold>1</defaultFairSharePreemptionThreshold>
+
+</allocations>
