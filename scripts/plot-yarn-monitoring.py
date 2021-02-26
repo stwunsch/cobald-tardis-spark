@@ -113,5 +113,5 @@ def plot(logs, skip_front = 0, skip_end = 0):
 
 
 if __name__ == '__main__':
-    logs = read('monitoring.log')
+    logs = read('yarn-monitoring.log')
     plot(logs)
