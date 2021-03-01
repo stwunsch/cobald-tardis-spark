@@ -26,13 +26,13 @@
 Default number of seconds the queue is under its minimum share before it will
 try to preempt containers to take resources from other queues.
 -->
-<defaultFairSharePreemptionTimeout>2</defaultFairSharePreemptionTimeout>
+<defaultFairSharePreemptionTimeout>10</defaultFairSharePreemptionTimeout>
 
 <!--
 If any queue waits defaultFairSharePreemptionTimeout without receiving 
 fairSharePreemptionThreshold*fairShare resources, it is allowed to preempt
 containers to take resources from other queues.
 -->
-<defaultFairSharePreemptionThreshold>1</defaultFairSharePreemptionThreshold>
+<defaultFairSharePreemptionThreshold>0.95</defaultFairSharePreemptionThreshold>
 
 </allocations>
