@@ -24,8 +24,12 @@ class YarnResourceManager:
     def get_resources(self, node):
         r = requests.get(self.base + '/ws/v1/cluster/nodes/' + node)
         data = r.json()
-        resources = data['node']['totalResource']
-        return {'cores': resources['vCores'], 'memory': resources['memory']}
+        totalresources = data['node']['totalResource']
+        resourceutilization = data['node']['resourceUtilization']
+        return {'cores': totalresources['vCores'],
+                'memory': totalresources['memory'],
+                'nodeCPUUsage': resourceutilization['nodeCPUUsage'],
+                'containersCPUUsage': resourceutilization['containersCPUUsage']}
 
     def _get_apps(self):
         r = requests.get(self.base + '/ws/v1/cluster/apps')
