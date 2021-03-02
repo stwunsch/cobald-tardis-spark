@@ -9,4 +9,5 @@ environment= ${Environment};Cores=${Cores};Memory=${Memory}
 request_cpus=${Cores}
 request_memory=${Memory}
 request_disk=${Disk}
+accounting_group = spark
 queue 1
