@@ -11,6 +11,7 @@ def create_db():
     sqliteConnection = sqlite3.connect(args.path)
     sqlite_create_table_query = """CREATE TABLE yarn_nm (
                                 name TEXT PRIMARY KEY,
+                                cpus INTEGER NOT NULL,
                                 allocated_vcores INTEGER NOT NULL,
                                 allocated_memory_mb INTEGER NOT NULL);"""
     cursor = sqliteConnection.cursor()

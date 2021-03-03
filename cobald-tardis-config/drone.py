@@ -87,11 +87,11 @@ if __name__ == "__main__":
         nmcursor = nmconn.cursor()
         insert_nm = """
             INSERT OR IGNORE INTO yarn_nm
-            (name, allocated_vcores, allocated_memory_mb)
+            (name, cpus, allocated_vcores, allocated_memory_mb)
             VALUES
-            (?, ?, ?)"""
+            (?, ?, ?, ?)"""
         # TODO: Remove this hardcoded value and make this configurable
-        nmcursor.execute(insert_nm, (node_label, 1, 1500))
+        nmcursor.execute(insert_nm, (node_label, os.cpu_count(), 1, 1500))
         nmconn.commit()
 
     # Retrieve current allocation and increase it
