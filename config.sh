@@ -28,6 +28,7 @@ export SPARK_CONF_DIR=$PROJECT_HOME/hadoop-config
 export HADOOP_HOME=$PROJECT_HOME/hadoop
 export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH
 export HADOOP_CONF_DIR=$PROJECT_HOME/hadoop-config
+export YARN_TMP_DIR=/tmp
 
 # Hostnames
 export YARN_RESOURCEMANAGER='portal1'

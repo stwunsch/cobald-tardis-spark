@@ -13,7 +13,7 @@
 
 <property>
   <name>yarn.nodemanager.local-dirs</name>
-  <value>/tmp</value>
+  <value>YARN_TMP_DIR</value>
 </property>
 
 <property>
