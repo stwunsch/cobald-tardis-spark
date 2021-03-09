@@ -8,6 +8,7 @@ export PROJECT_TMP=$PROJECT_HOME/tmp
 
 # Python
 export PYTHON_BINARY=python3
+export PYTHONPATH=$PROJECT_HOME/pyvenv/lib64/python3.6/site-packages:$PYTHONPATH
 
 # Cobald/Tardis
 export COBALD_TARDIS_CONFIG_DIR=$PROJECT_HOME/cobald-tardis-config
