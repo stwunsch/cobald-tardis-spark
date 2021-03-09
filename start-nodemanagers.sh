@@ -31,6 +31,10 @@ do
     then
         echo "Kill screen sessions on" ${HOSTNAME}
         ssh ${USER}@${HOSTNAME} "killall screen"
+    elif  [ ${MODE} = "insert" ]
+    then
+        echo "Insert nodemanager" ${HOSTNAME} "in database"
+        ssh ${USER}@${HOSTNAME}  "bash ${SCRIPT_DIR}/insert-nodemanager.sh"
     else
         echo "Unknown mode: " ${MODE}
         exit

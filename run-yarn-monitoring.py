@@ -1,16 +1,15 @@
-import requests
-from time import sleep
-from os import environ
-from datetime import datetime
 import sqlite3
+from datetime import datetime
+from os import environ
+from time import sleep
 
-# Connection to NM database needed to retrieve total cpus of each node
+import requests
+
+# The nodemanager database contains the number of logical cores of each NM
 filename_nmdb = environ['COBALD_TARDIS_NODEMANAGER_DATABASE']
-nmconn = sqlite3.connect(filename_nmdb)
-nmcursor = nmconn.cursor()
-cpus_query = "SELECT cpus FROM yarn_nm WHERE name = ?"
+cpus_query = 'SELECT cpus FROM yarn_nm WHERE name = ?'
 
-class YarnResourceManager:
+class YarnResourceManager(object):
     def __init__(self, hostname, ip=8088):
         self.hostname = hostname
         self.ip = ip
@@ -35,21 +34,25 @@ class YarnResourceManager:
         totalresources = data['node']['totalResource']
         resourceutilization = data['node']['resourceUtilization']
 
-        resources_dict = {'cores': totalresources['vCores'],
-                          'memory': totalresources['memory']}
+        nmconn = sqlite3.connect(filename_nmdb)
+        with nmconn:
+            nmcursor = nmconn.cursor()
+            # Retrieve cpus from current nodemanager entry in the database
+            cpus_query_result = nmcursor.execute(
+                cpus_query, (node, )).fetchall()
 
-        # Retrieve cpus from current nodemanager entry in the database
-        cpus_query_result = nmcursor.execute(cpus_query, (node, )).fetchall()
-        if(cpus_query_result):
-            # Adjust containersCPUUsage value from the YARN REST API
-            # Normalize it to the number of cpus actually in use by YARN on this node
+            # Adjust containersCPUUsage value from the YARN REST API. Normalize
+            # it to the number of cpus actually in use by YARN on this node
             nm_cpus = cpus_query_result[0][0]
-            adjusted_containers_cpu_usage = resourceutilization['containersCPUUsage'] * nm_cpus / totalresources['vCores']
-        
-            resources_dict.update({'nodeCPUUsage': round(resourceutilization['nodeCPUUsage'], 2),
-                                   'containersCPUUsage': round(adjusted_containers_cpu_usage, 2),})
+            containers_cpu_usage = resourceutilization['containersCPUUsage'] * \
+                nm_cpus / totalresources['vCores']
 
-        return resources_dict
+        return {
+            'id': node,
+            'cores': totalresources['vCores'],
+            'memory': totalresources['memory'],
+            'nodeCPUUsage': round(resourceutilization['nodeCPUUsage'], 2),
+            'containersCPUUsage': round(containers_cpu_usage, 2), }
 
     def _get_apps(self):
         r = requests.get(self.base + '/ws/v1/cluster/apps')
@@ -61,7 +64,8 @@ class YarnResourceManager:
                 state = app['state']
                 memory = app['allocatedMB']
                 cpus = app['allocatedVCores']
-                apps.append({'id': id_, 'cpus': cpus, 'memory': memory, 'state': state})
+                apps.append({'id': id_, 'cpus': cpus,
+                             'memory': memory, 'state': state})
         except:
             pass
         return apps
@@ -69,6 +73,7 @@ class YarnResourceManager:
     @property
     def apps(self):
         return self._get_apps()
+
 
 rm = YarnResourceManager(environ['YARN_RESOURCEMANAGER'])
 
@@ -80,7 +85,6 @@ while True:
     nodes = rm.nodes
     for node in nodes:
         data = rm.get_resources(node)
-        data['id'] = node
         print('node', data)
 
     # Applications

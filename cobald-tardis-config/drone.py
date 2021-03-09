@@ -78,23 +78,11 @@ if __name__ == "__main__":
         dronesconn.commit()
         print(f"Successfully inserted {args.drone_uuid} for nodemanager {node_label} into database")
 
-    # Insert a nodemanager into db if it doesn't exist yet
+    # Retrieve current allocation on the NM and increase it
     filename_nmdb = os.environ['COBALD_TARDIS_NODEMANAGER_DATABASE']
     print(f'Path to nodemanager database: {filename_nmdb}')
     nmconn = sqlite3.connect(filename_nmdb)
 
-    with nmconn:
-        nmcursor = nmconn.cursor()
-        insert_nm = """
-            INSERT OR IGNORE INTO yarn_nm
-            (name, cpus, allocated_vcores, allocated_memory_mb)
-            VALUES
-            (?, ?, ?, ?)"""
-        # TODO: Remove this hardcoded value and make this configurable
-        nmcursor.execute(insert_nm, (node_label, os.cpu_count(), 1, 1500))
-        nmconn.commit()
-
-    # Retrieve current allocation and increase it
     with lock:
         # Update database
         nmcursor = nmconn.cursor()
