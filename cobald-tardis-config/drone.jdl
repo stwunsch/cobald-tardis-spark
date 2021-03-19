@@ -6,8 +6,8 @@ error = CONFIGURE_COBALD_TARDIS_CONDOR_LOG_DIR/$$(cluster).$$(process).err
 log = CONFIGURE_COBALD_TARDIS_CONDOR_LOG_DIR/$$(cluster).$$(process).log
 requirements=regexp("sg0[1-4].etp.kit.edu", TARGET.machine) || regexp("ms0[2-4].etp.kit.edu", TARGET.machine)
 environment= ${Environment};Cores=${Cores};Memory=${Memory}
-request_cpus=${Cores}
-request_memory=${Memory}
-request_disk=${Disk}
+request_cpus=1
+request_memory=1500MB
+request_disk=1000MB
 accounting_group = spark
 queue 1

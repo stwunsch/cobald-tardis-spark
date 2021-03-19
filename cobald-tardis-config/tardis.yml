@@ -18,5 +18,5 @@ ETP:
   MachineMetaData:
     logicalnode:
       Cores: 1
-      Memory: 1
-      Disk: 5
+      Memory: 1500
+      Disk: 1000
