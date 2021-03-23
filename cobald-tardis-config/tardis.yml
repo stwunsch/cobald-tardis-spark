@@ -2,6 +2,7 @@ BatchSystem:
     adapter: Yarn
     resourcemanager: CONFIGURE_YARN_RESOURCEMANAGER
     drones_database: CONFIGURE_COBALD_TARDIS_DRONES_DATABASE
+    nodemanager_database: CONFIGURE_COBALD_TARDIS_NODEMANAGER_DATABASE
 
 Sites:
   - name: ETP
