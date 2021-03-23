@@ -1,4 +1,15 @@
 <configuration>
+<!-- Disable virtual memory checks per issue https://issues.apache.org/jira/browse/YARN-4714 -->
+<property>
+    <name>yarn.nodemanager.pmem-check-enabled</name>
+    <value>false</value>
+</property>
+
+<property>
+    <name>yarn.nodemanager.vmem-check-enabled</name>
+    <value>false</value>
+</property>
+
 
 <property>
   <name>yarn.nodemanager.runtime.linux.sandbox-mode.local-dirs.permissions</name>
