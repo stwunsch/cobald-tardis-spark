@@ -10,7 +10,7 @@ RDataFrame = ROOT.RDF.Experimental.Distributed.Spark.RDataFrame
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--out", help="Name of the csv where the execution time of the analysis should be written.")
-parser.add_argument("--nops", help="How many sum operations to run.")
+parser.add_argument("--nops", help="How many sum operations to run.", type=int)
 args = parser.parse_args()
 
 # Retrieve current time, just needed to give a name to the output csv file if
@@ -33,7 +33,7 @@ df = RDataFrame(nentries, sparkcontext=sc, npartitions=500)
 
 # Depending on how many "Sum" actions are requested we can tweak the runtime of the app
 nops = args.nops if args.nops else 1
-sum_op_list = [df.Sum("rdfentry_") for i in range(int(nops))]
+sum_op_list = [df.Sum("rdfentry_") for i in range(nops)]
 
 # Start a stopwatch and trigger the execution of the computation graph.
 t = ROOT.TStopwatch()

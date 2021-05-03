@@ -10,6 +10,9 @@ RDataFrame = ROOT.RDF.Experimental.Distributed.Spark.RDataFrame
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--out", help="Name of the csv where the execution time of the analysis should be written.")
+parser.add_argument("--nfiles",
+                    help="How many dimuon files replicas to run the analysis with. Accepts values in range [1,100].",
+                    type=int)
 args = parser.parse_args()
 
 
@@ -69,11 +72,13 @@ def dimuonSpectrum(df):
     # Save Canvas to image
     c.SaveAs("dimuonSpectrum.png")
 
-
+# Retrieve number of files to run the analysis with
+nfiles = args.nfiles if args.nfiles else 1
+assert (nfiles >= 1 and nfiles <= 100), "nfiles must be in range [1, 100]."
 filenames = [("root://eospublic.cern.ch/"
               "/eos/root-eos/benchmark/CMSOpenDataDimuon/"
               "Run2012BC_DoubleMuParked_Muons_{}.root").format(i)
-             for i in range(1, 2)  # Choose how many files to run with
+             for i in range(1, nfiles+1)
              ]
 
 # Example configuration with a YARN cluster, change according to needs
