@@ -1,8 +1,8 @@
 pipeline:
   - !LinearController
-    low_utilisation: 0.20
-    high_allocation: 0.70
-    rate: 1
+    low_utilisation: 0.50
+    high_allocation: 0.90
+    rate: 16
     interval: 1
   - !Limiter
     minimum: 1
