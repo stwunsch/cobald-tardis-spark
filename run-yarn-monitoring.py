@@ -52,7 +52,10 @@ class YarnResourceManager(object):
             'cores': totalresources['vCores'],
             'memory': totalresources['memory'],
             'nodeCPUUsage': round(resourceutilization['nodeCPUUsage'], 2),
-            'containersCPUUsage': round(containers_cpu_usage, 2), }
+            'containersCPUUsage': round(containers_cpu_usage, 2),
+            'usedVirtualCores': data['node']['usedVirtualCores'],
+            'availableVirtualCores': data['node']['availableVirtualCores'],
+            }
 
     def _get_apps(self):
         r = requests.get(self.base + '/ws/v1/cluster/apps')

@@ -4,7 +4,7 @@ executable = drone.sh
 output = CONFIGURE_COBALD_TARDIS_CONDOR_LOG_DIR/$$(cluster).$$(process).out
 error = CONFIGURE_COBALD_TARDIS_CONDOR_LOG_DIR/$$(cluster).$$(process).err
 log = CONFIGURE_COBALD_TARDIS_CONDOR_LOG_DIR/$$(cluster).$$(process).log
-requirements=regexp("sg0[1-4].etp.kit.edu", TARGET.machine) || regexp("ms0[2-4].etp.kit.edu", TARGET.machine)
+requirements=regexp("sg0[1-4].etp.kit.edu", TARGET.machine) || regexp("ms0[1-4].etp.kit.edu", TARGET.machine)
 environment= ${Environment};Cores=${Cores};Memory=${Memory}
 request_cpus=1
 request_memory=1500MB

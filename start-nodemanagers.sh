@@ -10,6 +10,7 @@ HOSTNAMES=(
     sg02.etp.kit.edu
     sg03.etp.kit.edu
     sg04.etp.kit.edu
+    ms01.etp.kit.edu
     ms02.etp.kit.edu
     ms03.etp.kit.edu
     ms04.etp.kit.edu
