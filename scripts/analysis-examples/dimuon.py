@@ -11,8 +11,20 @@ RDataFrame = ROOT.RDF.Experimental.Distributed.Spark.RDataFrame
 parser = argparse.ArgumentParser()
 parser.add_argument("--out", help="Name of the csv where the execution time of the analysis should be written.")
 parser.add_argument("--nfiles",
-                    help="How many dimuon files replicas to run the analysis with. Accepts values in range [1,100].",
+                    help="How many dimuon files to run the analysis with. Accepts values in range [1,100].",
                     type=int)
+parser.add_argument("--nreplicas",
+                    help="How many replicas of the nfiles dataset, in range [1,infinity].",
+                    default=1,
+                    type=int)
+parser.add_argument("--npartitions",
+                    help="How many partitions to be used, in range [1,infinity].",
+                    default=100,
+                    type=int)
+parser.add_argument("--queue",
+                    help="Name of the queue",
+                    default="dimuon",
+                    type=str)
 args = parser.parse_args()
 
 
@@ -75,24 +87,32 @@ def dimuonSpectrum(df):
 # Retrieve number of files to run the analysis with
 nfiles = args.nfiles if args.nfiles else 1
 assert (nfiles >= 1 and nfiles <= 100), "nfiles must be in range [1, 100]."
+'''
 filenames = [("root://eospublic.cern.ch/"
               "/eos/root-eos/benchmark/CMSOpenDataDimuon/"
               "Run2012BC_DoubleMuParked_Muons_{}.root").format(i)
              for i in range(1, nfiles+1)
              ]
+'''
+filenames = ['/storage/9/wunsch/NanoAODDimuon/Run2012BC_DoubleMuParked_Muons_x25.root'] * nfiles
+
+orig_filenames = filenames[:]
+filenames = []
+for i in range(args.nreplicas):
+    filenames += orig_filenames
 
 # Example configuration with a YARN cluster, change according to needs
 conf = {
     "spark.master": "yarn",
     "spark.executorEnv.LD_LIBRARY_PATH": os.environ["LD_LIBRARY_PATH"],
-    "spark.yarn.queue": "dimuon"
+    "spark.yarn.queue": args.queue
 }
 
 sconf = pyspark.SparkConf().setAll(conf.items())
 sc = pyspark.SparkContext(conf=sconf)
 
 # Create the dataframe with the sparkcontext and number of partitions
-df = RDataFrame("Events", filenames, sparkcontext=sc, npartitions=100)
+df = RDataFrame("Events", filenames, sparkcontext=sc, npartitions=args.npartitions)
 
 start_time = datetime.datetime.now()
 filename = f"test1_{start_time.year}_{start_time.month}_{start_time.day}_{start_time.hour}_{start_time.minute}.csv"
